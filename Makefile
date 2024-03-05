@@ -11,7 +11,7 @@ LDFLAG_REL=-O2
 LDFLAG_DBG=-g
 
 #BASE LIBRARIES
-LIB_FLAGS=-lm -lz -lgsl -lblas -lbz2 -lpthread
+LIB_FLAGS=-lm -lz -lgsl -lgslcblas -lblas -lbz2 -lpthread -llzma -lcurl -lcrypto
 
 #FILE LISTS
 BFILE=bin/clomics
@@ -25,12 +25,12 @@ VPATH=$(shell for file in `find src -name *.cpp`; do echo $$(dirname $$file); do
 all: desktop
 
 #UNIGE DESKTOP RELEASE VERSION
-desktop: RMATH_INC=/home/olivier/Tools/R-3.2.2/src/include
-desktop: RMATH_LIB=/home/olivier/Tools/R-3.2.2/src/nmath/standalone
-desktop: HTSLD_INC=/home/olivier/Tools/htslib-1.3
-desktop: HTSLD_LIB=/home/olivier/Tools/htslib-1.3
+desktop: RMATH_INC=/software/R-4.1.0/include/
+desktop: RMATH_LIB=/software/R-4.1.0/src/nmath/standalone
+desktop: HTSLD_INC=/software/htslib-1.12
+desktop: HTSLD_LIB=/software/htslib-1.12
 desktop: BOOST_INC=/usr/include
-desktop: BOOST_LIB=/usr/lib/x86_64-linux-gnu
+desktop: BOOST_LIB=/usr/lib64
 desktop: CXXFLAG=$(CXXFLAG_REL) $(CXXFLAG_WRN)
 desktop: IFLAG=-Ilib/OTools -Ilib -I$(RMATH_INC) -I$(HTSLD_INC) -I$(BOOST_INC)
 desktop: LIB_FILES=$(RMATH_LIB)/libRmath.a $(HTSLD_LIB)/libhts.a $(BOOST_LIB)/libboost_iostreams.a $(BOOST_LIB)/libboost_program_options.a

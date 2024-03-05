@@ -27,7 +27,8 @@ void build_main(vector < string > & argv) {
 	boost::program_options::options_description opt_files ("\x1B[32mI/O\33[0m");
 	opt_files.add_options()
 		("bed", boost::program_options::value< vector < string > >()->multitoken(), "List of phenotype files in BED format.")
-		("out", boost::program_options::value< string >(), "Output file for constructed tree.");
+		("out", boost::program_options::value< string >(), "Output file for constructed tree.")
+		("npeaks", boost::program_options::value< int >(), "Window size as number of neighbouring peaks to check [-npeaks, npeaks].");
 
 	boost::program_options::options_description opt_parameters ("\x1B[32mParameters\33[0m");
 	opt_parameters.add_options()
@@ -64,6 +65,7 @@ void build_main(vector < string > & argv) {
 	//-----------------
 	if (!D.options.count("bed")) vrb.error("Specify phenotypes with --bed [file.bed]");
 	if (!D.options.count("out")) vrb.error("Specify output tree with --out [file.out]");
+	if (!D.options.count("npeaks")) vrb.error("Specify window size --npeaks [200]");
 	if (D.options.count("bootstrap") && D.options.count("jackknife")) vrb.error("Specify only one of --bootstrap and --jackknife");
 	if (D.options.count("jackknife")) {
 		float prop = D.options["jackknife"].as < float > ();
@@ -113,7 +115,7 @@ void build_main(vector < string > & argv) {
 	//----------------
 	// 8. RUN ANALYSIS
 	//----------------
-	D.clusterize();
+	D.clusterize(D.options["npeaks"].as < int > ());
 
 	//----------------
 	// 9. WRITE OUTPUT

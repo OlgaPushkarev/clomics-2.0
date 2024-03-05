@@ -15,7 +15,7 @@
 
 #include "build_data.h"
 
-void build_data::clusterize() {
+void build_data::clusterize(int npeaks) {
 
 	//STEP1: compute all pairwise correlations vidx = i * phenotype_count - (i + 1) * i / 2 + j - i - 1
 	vrb.title("Compute all n=" + stb.str(phenotype_count * (phenotype_count - 1) / 2) + " possible correlations");
@@ -45,7 +45,7 @@ void build_data::clusterize() {
 		//Find max
 		int max_i = -1, max_j = -1;
 		float max_val = 0.0;
-		for (int i = 0 ; i < Kidx.size() - 1 ; i ++) for (int j = i + 1 ; j < i + 200 && j < Kidx.size() ; j ++) {
+		for (int i = 0 ; i < Kidx.size() - 1 ; i ++) for (int j = i + 1 ; j < i + npeaks && j < Kidx.size() ; j ++) {
 			if (abs(Kdist[Kidx[i]][Kidx[j]]) >= max_val) {
 				max_val = abs(Kdist[Kidx[i]][Kidx[j]]);
 				max_i = i;

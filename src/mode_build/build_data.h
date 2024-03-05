@@ -129,7 +129,7 @@ public:
 	double getPvalue(double, double);
 
 	//ANALYSIS
-	void clusterize();
+	void clusterize(int);
 
 	//OUTPUT
 	void writeTree(string);
